@@ -1,7 +1,8 @@
 
 
 
-**以下帮p3terx做个宣传**
+#以下帮p3terx做个宣传
+---
 **English** | [中文](https://p3terx.com/archives/build-openwrt-with-github-actions.html)
 
 # Actions-OpenWrt
