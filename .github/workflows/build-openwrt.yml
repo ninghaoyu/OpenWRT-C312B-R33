@@ -94,7 +94,7 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
         echo "===================================="
-        ls -l $GITHUB_WORKSPACE/.config
+        ls -l openwrt/.config
         sleep 10
         echo "===================================="
 
