@@ -55,13 +55,16 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
-    - name: Clone source code
+    - name: Clone OpenWRT source code
       working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        
+    - name: Clone foo2zjs source code
+      working-directory: /workdir
+      run: |
+        df -hT $PWD
         git clone $FOO2ZJS_REPO_URL -b main foo2zjs
         ln -sf /workdir/foo2zjs $GITHUB_WORKSPACE/foo2zjs
     #- name: cache
