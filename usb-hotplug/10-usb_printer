@@ -1,0 +1,73 @@
+#!/bin/sh 
+set -e
+
+PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin
+
+#FIRMWARE=/etc/config/sihpP1505.dl
+DEVICE=/dev/usb/lp0
+LOGFILE=/tmp/printer-log
+FIRMWARE='0'
+PRINTERMODEL='0'
+#echo "PID:$PRODUCT" >> $LOGFILE
+#echo "TYPE:$DEVTYPE or $TYPE" >> $LOGFILE
+#exit 0
+
+#location where you put the .dl file:
+case $PRODUCT in
+    "3f0/3f17/100")  #HP P1505
+        FIRMWARE='/etc/config/sihpP1505.dl'
+        PRINTERMODEL='HP LaserJet P1505/P1505n'
+    ;;
+    "3f0/0517/100")  #HP 1000
+        FIRMWARE='/etc/config/sihp1000.dl'
+        PRINTERMODEL='HP LaserJet 1000'
+    ;;
+    "3f0/1317/100")  #HP 1005
+        FIRMWARE='/etc/config/sihp1005.dl'
+        PRINTERMODEL='HP LaserJet 1005'
+    ;;
+    "3f0/4117/100")  #HP 1018
+        FIRMWARE='/etc/config/sihp1018.dl'
+        PRINTERMODEL='HP LaserJet 1018'
+    ;;
+    "3f0/2b17/100")  #HP 1020
+        FIRMWARE='/etc/config/sihp1020.dl'
+        PRINTERMODEL='HP LaserJet 1020'
+    ;;
+    "3f0/2c17/100")  #HP 1022
+        FIRMWARE='/etc/config/sihp1022.dl'
+        PRINTERMODEL='HP LaserJet 1022'
+    ;;
+    "3f0/3d17/100")  #HP P1005
+        FIRMWARE='/etc/config/sihpP1005.dl'
+        PRINTERMODEL='HP LaserJet P1005'
+    ;;
+    "3f0/3e17/100")  #HP P1006
+        FIRMWARE='/etc/config/sihpP1006.dl'
+        PRINTERMODEL='HP LaserJet P1006'
+    ;;
+    "3f0/3g17/100")  #HP P1007
+        FIRMWARE='/etc/config/sihpP1007.dl'
+        PRINTERMODEL='HP LaserJet P1007'
+    ;;
+    "3f0/3h17/100")  #HP P1008
+        FIRMWARE='/etc/config/sihpP1008.dl'
+        PRINTERMODEL='HP LaserJet P1008'
+    ;;
+esac
+
+#upload firmware to device
+if [ "$FIRMWARE" != '0' -a "$ACTION" = "add" -a "$DEVTYPE" = "usb_interface" ]; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S'): Detected $PRINTERMODEL printer!" >> $LOGFILE        
+    for i in $(seq 30); do
+        echo "$(date '+%Y-%m-%d %H:%M:%S'): Attempt number $i on $DEVICE" >> $LOGFILE        
+        if [ -c $DEVICE ]; then
+            echo "$(date '+%Y-%m-%d %H:%M:%S'): $PRINTERMODEL $ACTION" >> $LOGFILE        
+            cat $FIRMWARE > $DEVICE && echo "$(date '+%Y-%m-%d %H:%M:%S'): $PRINTERMODEL init Success" >> $LOGFILE || echo "$(date '+%Y-%m-%d %H:%M:%S'): $PRINTERMODEL init Failed" >> $LOGFILE 
+            exit
+        fi
+        sleep 1
+    done
+elif [ "$ACTION" = "remove" ]; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S'): $PRINTERMODEL $ACTION" >> $LOGFILE        
+fi
