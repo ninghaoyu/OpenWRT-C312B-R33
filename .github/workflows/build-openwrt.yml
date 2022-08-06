@@ -66,7 +66,7 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $FOO2ZJS_REPO_URL -b main foo2zjs
+        git clone $FOO2ZJS_REPO_URL foo2zjs
         ln -sf /workdir/foo2zjs $GITHUB_WORKSPACE/foo2zjs
     #- name: cache
     #  uses: klever1988/cachewrtbuild@main
